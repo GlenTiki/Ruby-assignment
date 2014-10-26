@@ -18,6 +18,8 @@ Outstanding (85-100%) – Everything except eviction policy on local cache - sta
 
 NOTES:
 
+Added a command to list all books in database.
+
 All stale data in caches is deleted when neccessary. 
 
 Every time a person accesses the local cache, they must check it matches the shared cache.
