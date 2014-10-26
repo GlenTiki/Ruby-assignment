@@ -19,20 +19,20 @@ class AddBookCommand < UserCommand
   def input
     response = ''
    	puts 'Add Book. (Don\'t leave any field blank.)'
-	  print "ISBN?"
+	  print "ISBN?\n"
     @isbn = getValidInput 
-    print "Author?"
+    print "Author?\n"
     @author = getValidInput 
-    print "Title?"
+    print "Title?\n"
     @title = getValidInput
     puts "Genre"
-    $GENRE.each_index {|i| print " (#{i+1}) #{$GENRE[i]} "}
-    print '?'
+    $GENRE.each_index {|i| print " (#{i+1}) #{$GENRE[i]}"}
+    print "?\n"
     response = getValidInput.to_i
-    @genre = $GENRE[response - 1] if (1..$GENRE.length).member? response 
-    print 'price?'
+    @genre = $GENRE[(response % $GENRE.length) - 1]
+    print "price?\n"
     @price = getValidInput.to_f
-    print 'quantity in stock?'
+    print "quantity in stock?\n"
     @quantity = getValidInput.to_i
   end
 
@@ -47,16 +47,15 @@ class AddBookCommand < UserCommand
   end
 
   def execute
-     book = BookInStock.new(@isbn, @title, @author, @genre, @price, @quantity)
-     if book
-        begin
-          @data_source.createBook book
-        rescue 
-          print 'could not create book. did you have a unique isbn?'
-        end
-      else
-        puts 'Invalid ISBN'
+    book = BookInStock.new(@isbn, @title, @author, @genre, @price, @quantity)
+    if book
+      begin
+        @data_source.createBook book
+      rescue
+       print 'could not create book. did you have a unique isbn?'
       end
+    else
+      puts 'Invalid ISBN'
+    end
 	end 
-
 end
